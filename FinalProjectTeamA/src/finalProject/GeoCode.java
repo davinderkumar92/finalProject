@@ -3,6 +3,8 @@ package finalProject;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
+import java.net.URISyntaxException;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -20,13 +22,16 @@ public class GeoCode {
 
 	private static final String GOOGLE_API_KEY = "AIzaSyARiki0HBLlyR7xH0K3e4eifaSLzx8b-7E";
 	private final static HttpClient client = HttpClientBuilder.create().build();
-	
-	public static void performSearch( String address) throws Exception {
+	public static void performSearch(String address) throws Exception{
+	//public static void performSearch( String number,String streetName,String direction,String city,String country) throws Exception {
 		final URIBuilder builder = new URIBuilder().setScheme("https").setHost("maps.googleapis.com").setPath("/maps/api/geocode/json");
-		
-		builder.addParameter("address", address);
-		
-		builder.addParameter("key",GeoCode.GOOGLE_API_KEY);
+		builder.addParameter("address",address);
+		//builder.addParameter("number",number);
+		//builder.addParameter("streetName",streetName);
+		//builder.addParameter("direction",direction);
+		//builder.addParameter("city",city);
+		//builder.addParameter("country",country);
+		//builder.addParameter("key",GeoCode.GOOGLE_API_KEY);
 		final HttpUriRequest request = new HttpGet(builder.build());
 		System.out.print(request);
 		
@@ -49,10 +54,10 @@ public class GeoCode {
 			String lat = location.getString("lat");
 			String lng = location.getString("lng");
 			
-			System.out.println(lat);
-			System.out.println(lng);
+			System.out.println("the latitude is " + lat);
+			System.out.println("the longitude is " +lng);
 			String types = resultObject.getString("types");
-			System.out.println(types);
+			System.out.println("the type is " + types);
 			
 			
 			
