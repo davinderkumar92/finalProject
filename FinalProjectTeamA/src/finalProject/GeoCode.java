@@ -22,22 +22,26 @@ public class GeoCode {
 
 	private static final String GOOGLE_API_KEY = "AIzaSyARiki0HBLlyR7xH0K3e4eifaSLzx8b-7E";
 	private final static HttpClient client = HttpClientBuilder.create().build();
-	public static void performSearch(String address) throws Exception{
-	//public static void performSearch( String number,String streetName,String direction,String city,String country) throws Exception {
+//public static void performSearch(String[] tokens) throws Exception{
+public static void performSearch( String address, String number,String streetName,String city,String province ,String country) throws Exception {
 		final URIBuilder builder = new URIBuilder().setScheme("https").setHost("maps.googleapis.com").setPath("/maps/api/geocode/json");
+		//for (int i = 0; i<tokens.length; i++){
 		builder.addParameter("address",address);
-		//builder.addParameter("number",number);
-		//builder.addParameter("streetName",streetName);
-		//builder.addParameter("direction",direction);
-		//builder.addParameter("city",city);
-		//builder.addParameter("country",country);
-		//builder.addParameter("key",GeoCode.GOOGLE_API_KEY);
+		builder.addParameter("Street_number",number);
+		builder.addParameter("locality",streetName);
+		
+		builder.addParameter("administrative_area_level_2",city);
+		
+		builder.addParameter("administrative_area_level_1",province);
+		
+		builder.addParameter("country",country);
+		builder.addParameter("key",GeoCode.GOOGLE_API_KEY);
 		final HttpUriRequest request = new HttpGet(builder.build());
 		System.out.print(request);
 		
 		final HttpResponse execute = client.execute(request);
 		final String response = EntityUtils.toString(execute.getEntity());
-		System.out.println(response);
+		//System.out.println(response);
 		JSONObject results = JSONObject.fromObject(response);
 		
 		JSONArray resultsArray = results.getJSONArray("results");
@@ -58,9 +62,6 @@ public class GeoCode {
 			System.out.println("the longitude is " +lng);
 			String types = resultObject.getString("types");
 			System.out.println("the type is " + types);
-			
-			
-			
 			
 			
 			
